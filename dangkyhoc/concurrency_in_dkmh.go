@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"strconv"
 )
 
 const (
@@ -26,8 +27,8 @@ var (
 )
 
 func main() {
-	username := os.Args[1]
-	password := os.Args[2]
+	username := os.Getenv("UET_USER")
+	password := os.Getenv("UET_PASS")
 
 	// http client prepare
 	client := &http.Client{
@@ -65,7 +66,7 @@ func main() {
 	for true {
 		guard <- struct{}{}
 		go func(client *http.Client) {
-			_ = register(client, os.Args[3:])
+			_ = register(client, os.Args[1:])
 			<-guard
 		}(client)
 		time.Sleep(1 * time.Second)
@@ -100,6 +101,7 @@ func login(client *http.Client, username string, password string) bool {
 	return true
 }
 
+var cnt int = 0
 func register(client *http.Client, targets []string) bool {
 	var err error
 	var resp *http.Response
@@ -128,7 +130,8 @@ func register(client *http.Client, targets []string) bool {
 		return false
 	}
 	respBody, _ := ioutil.ReadAll(resp2.Body)
-	fmt.Println(string(respBody))
+	cnt++
+	fmt.Println(strconv.Itoa(cnt) + ": " + string(respBody))
 	resp2.Body.Close()
 	return true
 }

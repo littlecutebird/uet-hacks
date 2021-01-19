@@ -42,7 +42,9 @@ python dangkyhoc.py
 A faster way of registering for classes, written in Go.
 
 ```
-go run concurrency_in_dkmh.go <username> <password> (subjects' indexes, space separated)
+// Set environment variable UET_USER and UET_PASS for username and password
 
-Eg. go run concurrency_in_dkmh.go 18021337 testpassword 123 456 789
+go run concurrency_in_dkmh.go (subjects' indexes, space separated)
+
+Eg. go run concurrency_in_dkmh.go 123 456 789
 ```
